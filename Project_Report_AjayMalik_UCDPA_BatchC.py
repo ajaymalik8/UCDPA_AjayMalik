@@ -478,9 +478,15 @@ ds_heart.corr()['attack'].sort_values().drop('attack').plot(kind = 'barh', color
 # Correlation of the target column with other columns
 
 
+# In[70]:
+
+
+sns.heatmap(ds_heart.corr(), annot=True)
+
+
 # ### Modelling
 
-# In[50]:
+# In[51]:
 
 
 # Split 75:25
@@ -489,14 +495,14 @@ y_train=ds_heart["attack"]
 x_train, x_test, y_train, y_test = train_test_split(x_train, y_train, test_size=0.25)
 
 
-# In[51]:
+# In[52]:
 
 
 print('Train dataset shape:',x_train.shape)
 print('Test dataset shape', y_train.shape)
 
 
-# In[52]:
+# In[53]:
 
 
 numeric_columns = [column for column in x_train.columns if (ds_heart[column].dtype == 'float64' or ds_heart[column].dtype == 'int64')]
@@ -506,7 +512,7 @@ categorical_columns = x_train.select_dtypes(include='object').columns
 print(categorical_columns)
 
 
-# In[53]:
+# In[54]:
 
 
 numeric_features = Pipeline([
@@ -516,7 +522,7 @@ numeric_features = Pipeline([
 print(numeric_features)
 
 
-# In[54]:
+# In[55]:
 
 
 categorical_features = Pipeline([
@@ -527,7 +533,7 @@ categorical_features = Pipeline([
 print(categorical_features)
 
 
-# In[55]:
+# In[56]:
 
 
 processing = ColumnTransformer([
@@ -539,7 +545,7 @@ print(processing)
 
 # ## Model Preparation & Model Evaluation
 
-# In[56]:
+# In[57]:
 
 
 def prepare_model(algorithm):
@@ -600,7 +606,7 @@ algorithms = [('Random Forest calssifier', RandomForestClassifier()),
              ]
 
 
-# In[64]:
+# In[62]:
 
 
 trained_models = []
@@ -614,20 +620,20 @@ for index, tup in enumerate(algorithms):
 
 # ## Evaluation Metrics
 
-# In[65]:
+# In[63]:
 
 
 print(model_and_score)
 
 
-# In[66]:
+# In[64]:
 
 
 for index, tup in enumerate(trained_models):
     prepare_confusion_matrix(tup[0], tup[1])
 
 
-# In[67]:
+# In[65]:
 
 
 for index, tup in enumerate(trained_models):
@@ -635,14 +641,14 @@ for index, tup in enumerate(trained_models):
     print("\n")
 
 
-# In[68]:
+# In[66]:
 
 
 print('Test dataset shape:',x_test.shape)
 print('Tes dataset shape', y_test.shape)
 
 
-# In[69]:
+# In[67]:
 
 
 encoder = LabelEncoder()
@@ -652,14 +658,14 @@ for index, tup in enumerate(trained_models):
     prepare_roc_curve(tup[0], tup[1])
 
 
-# In[70]:
+# In[75]:
 
 
 x = pd.DataFrame([
-    ["Random Forest calssifier","100","0.86"],
-    ["Gradientboot classifier","99.56","0.86"],
-    ["XGB Classifier","100","0.84"]],
-    columns=["Model", "Train Accuracy", "AUC SCORE"]
+    [":","Random Forest calssifier",":","100",":","0.85",":","0.78"],
+    [":","Gradientboot classifier",":","98.6",":","0.82",":","0.74"],
+    [":","XGB Classifier",":","100",":","0.80",":","0.71"]],
+    columns=[":","Model",":","Train Accuracy",":","AUC SCORE",":","f1-Score"]
 )
 print(x)
 
